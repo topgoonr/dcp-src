@@ -16,7 +16,7 @@ func multiplier(givenList []int) []int64 {
 	var mult int64                        // large size for large multiples from all the numbers
 
 	for i := 0; i < numElems; i++ {
-		mult = 1
+		mult = 1 // good to avoid multiple declarations, so declared it at the top
 		for j := 0; j < numElems; j++ {
 			if j == i {
 				continue // next iteration please
