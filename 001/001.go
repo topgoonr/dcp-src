@@ -17,7 +17,7 @@ Bonus: Can you do this in one pass?
 var target = 10
 var givenList = []int{11, 3, 5, 7}
 
-func check(list []int, mytarget int) bool {
+func bruteCheck(list []int, mytarget int) bool {
 	// brute force
 	for i := 0; i < len(list)-1; i++ {
 		for j := i + 1; j < len(list); j++ {
@@ -30,5 +30,26 @@ func check(list []int, mytarget int) bool {
 }
 
 func main() {
-	fmt.Println(check(givenList, target))
+	fmt.Println(bruteCheck(givenList, target))
+
+	fmt.Println(optimizedCheck(givenList, target))
+}
+
+func optimizedCheck(list []int, mytarget int) bool {
+	// TODO:
+	// pre-requisite: list must be sorted
+	// traverse the 'i' index from left to right
+	// traverse the 'j' index from right to left
+
+	// in every  iteration: check sum of i-th element and the j-th element
+	i := 0
+	// listlen := len(list)
+	for j := len(list) - 1; i < j; j-- {
+		fmt.Println(i, j)
+		if (list[i] + list[j]) == mytarget {
+			return true
+		}
+		i++
+	}
+	return false
 }
