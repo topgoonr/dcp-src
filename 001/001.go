@@ -36,7 +36,7 @@ func main() {
 }
 
 func optimizedCheck(list []int, mytarget int) bool {
-	// TODO:
+	// TODO:..
 	// pre-requisite: list must be sorted
 	// traverse the 'i' index from left to right
 	// traverse the 'j' index from right to left
