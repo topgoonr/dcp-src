@@ -19,7 +19,7 @@ func multiplier(givenList []int) []int64 {
 		mult = 1 // good to avoid multiple declarations, so declared it at the top
 		for j := 0; j < numElems; j++ {
 			if j == i {
-				continue // next iteration please
+				continue // next iteration pleaseddd
 			}
 			mult = mult * int64(givenList[j])
 		}
