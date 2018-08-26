@@ -39,13 +39,6 @@ func pair(a int, b int) cons {
 	return first
 }
 
-// func cons(a, b int) []int {
-// 	mylist := make([]int)
-// 	mylist.append(a)
-// 	mylist.append(b)
-// 	return mylist
-// }
-
 // TODO
 func car(something cons) int {
 	return something.car
