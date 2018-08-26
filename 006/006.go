@@ -12,6 +12,8 @@ If using a language that has no pointers (such as Python), you can assume you ha
 JH Notes:
 Very minimal description of an XOR list in the problem statement.
 
+XOR linked list is a memory efficient doubly linked list.
+
 Best explanation at this site: http://www.ritambhara.in/memory-efficient-doubly-linked-list/
 
 Interesting properties:
@@ -27,7 +29,8 @@ Go does not like pointer arithmetic. Therefore, the unsafe.Pointer function has 
 https://stackoverflow.com/questions/47846206/bitwise-xor-on-address-in-golang
 
 
-So, the 'add' function looks like this:
+So, the 'add'
+ function looks like this:
 add:
 	this.both = this.both ^ newnode
 	newnode.both = this.both ^ nil
@@ -67,5 +70,7 @@ func get(thisnode *xorlist) int {
 }
 
 func main() {
-
+	// TODO: Create an XOR linked list
+	// TODO: test using a forward traversal
+	// TODO: test using a backward traversal
 }
