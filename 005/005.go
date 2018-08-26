@@ -17,7 +17,7 @@ JH notes:
 Although, cons makes a pair, it can be used to make a list as well.
 The 'car' and 'cdr' functions can then use the pairing function to add to the list.
 
-In actual LISP, car and cdr are both fields. car points to the first element. cdr points to the rest of teh list.
+In Common LISP, car and cdr are both fields. car points to the first element. cdr points to the rest of the list.
 */
 
 package main
