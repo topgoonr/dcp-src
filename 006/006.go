@@ -26,6 +26,11 @@ Golang issues:
 Go does not like pointer arithmetic. Therefore, the unsafe.Pointer function has to be used for doing this. Reference:
 https://stackoverflow.com/questions/47846206/bitwise-xor-on-address-in-golang
 
+
+So, the 'add' function looks like this:
+add:
+	this.both = this.both ^ newnode
+	newnode.both = this.both ^ nil
 */
 package main
 
