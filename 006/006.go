@@ -42,6 +42,7 @@ import (
 	"unsafe"
 )
 
+//  instead of pointers, work with arrays. The indices could be the addresses
 type xorlist struct {
 	value int
 	both  *xorlist // previous XOR next --> both
@@ -73,4 +74,19 @@ func main() {
 	// TODO: Create an XOR linked list
 	// TODO: test using a forward traversal
 	// TODO: test using a backward traversal
+
+	x := xorlist{value: 1, both: nil}
+	p1 := &x
+	p2 := add(p1, 2)
+	p3 := add(p2, 3)
+	add(p3, 4)
+
+	for t := p1; t != nil; {
+		fmt.Println(get(t))
+		// t.both ^ t
+		temp1 := unsafe.Pointer(t.both)
+		temp2 := unsafe.Pointer(t)
+		t = (*xorlist)(unsafe.Pointer(uintptr(temp1) ^ uintptr(temp2)))
+	}
+
 }
