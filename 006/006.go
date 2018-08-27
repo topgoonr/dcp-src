@@ -29,6 +29,14 @@ Go does not like pointer arithmetic. Therefore, the unsafe.Pointer function has 
 https://stackoverflow.com/questions/47846206/bitwise-xor-on-address-in-golang
 
 
+Good references are hard to find here. So, here are some. Stop looking at useless stackexchange posts and read the books which contain details for this: 
+1. Linux Journal has an excellent article on this:  
+https://www.linuxjournal.com/article/6828?page=0,0
+2. unf.edu has a book on this. It is brief, but should work: 
+https://www.unf.edu/~wkloster/3540/wiki_book.pdf
+
+
+
 So, the 'add'
  function looks like this:
 add:
@@ -42,13 +50,41 @@ import (
 	"unsafe"
 )
 
-//  instead of pointers, work with arrays. The indices could be the addresses
+// using indices to an array instead of pointers
 type xorlist struct {
-	value int
-	both  *xorlist // previous XOR next --> both
+	value string
+	both  int // previous XOR next --> both
 }
 
+head := 0  // points to the head index of the list
+
+// test using this:
+var globalList = []xorlist{
+	{"head", -1}, {"first", 0}}
+// head is added only as a necessary filler. 
+// Otherwise there is no convenient way to simulate a NIL with indices
+
 // TODO: add a new node
+// technique:
+func add(previndex, thisindex int) int {
+
+}
+
+// TODO: traversal to the next node is enabled here
+func nextnode(previndex, thisindex int) int {
+
+}
+
+// TODO: get operation
+func get(previndex, thisindex int) int {
+	return globalList[thisindex].value
+}
+
+
+// IGNORE THIS SECTION. Attempted pointer version. 
+
+// old method of doing a node
+/*
 func add(thisnode *xorlist, someval int) *xorlist {
 	thisNodeP := unsafe.Pointer(thisnode)
 	latestBoth := (*xorlist)(unsafe.Pointer(uintptr(thisNodeP) ^ (uintptr(0))))
@@ -63,6 +99,7 @@ func add(thisnode *xorlist, someval int) *xorlist {
 
 	return &newnode
 }
+*/
 
 // TODO: get the value at this node
 func get(thisnode *xorlist) int {
