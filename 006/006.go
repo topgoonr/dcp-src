@@ -29,25 +29,29 @@ Go does not like pointer arithmetic. Therefore, the unsafe.Pointer function has 
 https://stackoverflow.com/questions/47846206/bitwise-xor-on-address-in-golang
 
 
-Good references are hard to find here. So, here are some. Stop looking at useless stackexchange posts and read the books which contain details for this: 
-1. Linux Journal has an excellent article on this:  
+Good references are hard to find here. So, here are some. Stop looking at useless stackexchange posts and read the books which contain details for this:
+
+
+1. Linux Journal has an excellent article on this. This is the seminal article that almost everyone refers to. Well written by Prokash Sinha.
 https://www.linuxjournal.com/article/6828?page=0,0
-2. unf.edu has a book on this. It is brief, but should work: 
+2. unf.edu has a book on this. It is brief, but should work:
 https://www.unf.edu/~wkloster/3540/wiki_book.pdf
 
 
-
+The XOR 'both' field is also known as the pointer difference.
 So, the 'add'
  function looks like this:
 add:
 	this.both = this.both ^ newnode
 	newnode.both = this.both ^ nil
+
+The node at the head always has a nil in the 'both' field
 */
 package main
 
 import (
 	"fmt"
-	"unsafe"
+	"strconv"
 )
 
 // using indices to an array instead of pointers
@@ -56,74 +60,67 @@ type xorlist struct {
 	both  int // previous XOR next --> both
 }
 
-head := 0  // points to the head index of the list
+var head int // points to the head index of the list, should be initialized to zero
 
 // test using this:
-var globalList = []xorlist{
-	{"head", -1}, {"first", 0}}
-// head is added only as a necessary filler. 
+var globalList = []xorlist{{value: "head", both: 0}}
+
+// head is added only as a necessary filler.
 // Otherwise there is no convenient way to simulate a NIL with indices
 
 // TODO: add a new node
-// technique:
-func add(previndex, thisindex int) int {
+/* technique:
+add:
+	this.both = this.both ^ newnode
+	newnode.both = this.both ^ nil
+*/
+func addToTail(previndex, thisindex int, newvalue string) int {
+	fmt.Println("prev, this", previndex, thisindex)
+	newBothValue := int(thisindex ^ 0)
+	tempNew := xorlist{value: newvalue, both: newBothValue}
+	// recalculate this.both
+	fmt.Println("here2")
+	newIndex := len(globalList)
+	thisBothValue := int(previndex ^ newIndex)
+	globalList = append(globalList, tempNew)
+	// create the entry first
 
+	globalList[thisindex].both = thisBothValue
+	fmt.Println("here3")
+	// 	add the new node to globalList
+	return len(globalList) - 1
 }
 
 // TODO: traversal to the next node is enabled here
-func nextnode(previndex, thisindex int) int {
-
+func nextNode(previndex, thisindex int) int {
+	// XOR of this node.both and prevnode ptr
+	return int(previndex ^ globalList[thisindex].both)
 }
 
 // TODO: get operation
-func get(previndex, thisindex int) int {
+func get(thisindex int) string {
 	return globalList[thisindex].value
 }
 
-
-// IGNORE THIS SECTION. Attempted pointer version. 
-
-// old method of doing a node
-/*
-func add(thisnode *xorlist, someval int) *xorlist {
-	thisNodeP := unsafe.Pointer(thisnode)
-	latestBoth := (*xorlist)(unsafe.Pointer(uintptr(thisNodeP) ^ (uintptr(0))))
-
-	// changing newnode.both
-	newnode := xorlist{value: someval, both: latestBoth}
-
-	// changing thisnode.both
-	newNodeP := unsafe.Pointer(&newnode)
-	tempboth := (*xorlist)(unsafe.Pointer(uintptr(newNodeP) ^ (uintptr(thisNodeP))))
-	thisnode.both = tempboth
-
-	return &newnode
-}
-*/
-
-// TODO: get the value at this node
-func get(thisnode *xorlist) int {
-	fmt.Println(thisnode)
-	return thisnode.value
-}
+// IGNORE THIS SECTION. Attempted pointer version.
 
 func main() {
 	// TODO: Create an XOR linked list
-	// TODO: test using a forward traversal
-	// TODO: test using a backward traversal
 
-	x := xorlist{value: 1, both: nil}
-	p1 := &x
-	p2 := add(p1, 2)
-	p3 := add(p2, 3)
-	add(p3, 4)
-
-	for t := p1; t != nil; {
-		fmt.Println(get(t))
-		// t.both ^ t
-		temp1 := unsafe.Pointer(t.both)
-		temp2 := unsafe.Pointer(t)
-		t = (*xorlist)(unsafe.Pointer(uintptr(temp1) ^ uintptr(temp2)))
+	for i := len(globalList) - 1; i < 6; i++ {
+		fmt.Println(i)
+		prev := i
+		somevalue := strconv.Itoa((i + 1) * 10)
+		addToTail(prev, i+1, somevalue)
 	}
+
+	fmt.Println(globalList)
+	for i := range globalList {
+		fmt.Printf("%d = %s <%4b>\n", i, get(i), byte(globalList[i].both))
+	}
+
+	// TODO: test using a forward traversal
+	// for this := 0;
+	// TODO: test using a backward traversal
 
 }
