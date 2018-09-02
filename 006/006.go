@@ -39,6 +39,7 @@ https://www.unf.edu/~wkloster/3540/wiki_book.pdf
 
 
 The XOR 'both' field is also known as the pointer difference.
+
 So, the 'add'
  function looks like this:
 add:
@@ -102,7 +103,10 @@ func get(thisindex int) string {
 	return globalList[thisindex].value
 }
 
-// IGNORE THIS SECTION. Attempted pointer version.
+// traversal
+func traversal(thisindex int) {
+
+}
 
 func main() {
 	// TODO: Create an XOR linked list
