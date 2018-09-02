@@ -56,7 +56,7 @@ import (
 )
 
 // using indices to an array instead of pointers
-type xorlist struct {
+type xorNode struct {
 	value string
 	both  int // previous XOR next --> both
 }
@@ -64,7 +64,7 @@ type xorlist struct {
 var head int // points to the head index of the list, should be initialized to zero
 
 // test using this:
-var globalList = []xorlist{{value: "head", both: 0}}
+var globalList = []xorNode{{value: "head", both: 0}}
 
 // head is added only as a necessary filler.
 // Otherwise there is no convenient way to simulate a NIL with indices
@@ -77,8 +77,10 @@ add:
 */
 func addToTail(previndex, thisindex int, newvalue string) int {
 	fmt.Println("prev, this", previndex, thisindex)
+
+	// get the next both value first
 	newBothValue := int(thisindex ^ 0)
-	tempNew := xorlist{value: newvalue, both: newBothValue}
+	tempNew := xorNode{value: newvalue, both: newBothValue}
 	// recalculate this.both
 	fmt.Println("here2")
 	newIndex := len(globalList)
