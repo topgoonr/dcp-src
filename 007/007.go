@@ -90,7 +90,7 @@ func decode(input string) []string {
 		plainprefix := string(b[0])
 		prefix = globalmap[plainprefix] // first letter
 		// prefix = plainprefix
-		fmt.Println(">2 gg-->")
+		fmt.Println("3-->")
 		fmt.Printf("part 1: there -- prefix = <%s>\n", prefix)
 		suffixlist = append(suffixlist, decode(string(b[1:]))...)
 		fmt.Println("part 1: ... and back again; suffixlist = ", suffixlist)
@@ -100,7 +100,7 @@ func decode(input string) []string {
 			// fmt.Println(s)
 			join1 = prefix
 			join1 += s
-			fmt.Printf("joinedstring = %s\n", join1)
+			fmt.Printf("join1 = %s\n", join1)
 			outputlist = append(outputlist, join1)
 		}
 
@@ -114,12 +114,11 @@ func decode(input string) []string {
 
 		for _, s := range suffixlist {
 			join2 = prefix
-			fmt.Printf("join2 = %s, s = %s\n", join2, s)
+			// fmt.Printf("pref = %s, s = %s\n", join2, s)
 			join2 += s
 			// join2 += globalmap[s]
 			fmt.Println("join2 = ", join2)
 			outputlist = append(outputlist, join2)
-			fmt.Printf("joinedstring = %s\n", join2)
 			outputlist = append(outputlist, join2)
 
 		}
