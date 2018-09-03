@@ -17,8 +17,7 @@ import (
 )
 
 // TODO:
-// Recursive approach. Not working. Needs to be fixed.
-
+// Recursive approach.
 func decode(input string) []string {
 	// returns list and error status
 	globalmap := map[string]string{
