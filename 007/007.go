@@ -17,7 +17,11 @@ import (
 )
 
 // TODO:
+// create an error free version of the mapping function
+
+// TODO:
 // Recursive approach.
+
 func decode(input string) []string {
 	// returns list and error status
 	globalmap := map[string]string{
@@ -72,12 +76,18 @@ func decode(input string) []string {
 	// make a combination with the suffixes returned by the recursive call
 	// variadic function to add a list to a list, and keeping the last element empty
 
-	// 11, and 1+1
+	// two possibilities: 11, and 1+1
+	// or, in some cases only one: 2+7, since 27 does not exist as a valid key
 	if len(input) == 2 {
 		tempjoin := globalmap[string(b[0])] + globalmap[string(b[1])] // aa
 		outputlist = append(outputlist, tempjoin)
-		outputlist = append(outputlist, globalmap[string(b[:2])]) // k
 		fmt.Println("2-->", outputlist)
+		val, ok := globalmap[string(b[:2])] // k
+		if ok {
+			outputlist = append(outputlist, val)
+			fmt.Println("2-->", outputlist)
+		}
+
 		fmt.Printf("input = %s, output = %s\n", input, outputlist)
 		return outputlist
 	}
@@ -136,7 +146,8 @@ func decode(input string) []string {
 
 func main() {
 	// mylist := decode("111")
-	mylist := decode("12121")
+	// mylist := decode("12121")
+	mylist := decode("12127")
 	fmt.Println(mylist)
 	fmt.Println(len(mylist))
 }
