@@ -10,26 +10,27 @@ type valueType int
 
 // TreeNode is a binary tree node
 type TreeNode struct {
-	left  *TreeNode
-	right *TreeNode
-	value valueType
+	Left  *TreeNode
+	Right *TreeNode
+	Value valueType
 }
 
 type direction int
 
+// direction Left, Right
 const (
-	left direction = iota
-	right
+	Left direction = iota
+	Right
 )
 
 func addNode(thisNode *TreeNode, dir direction, value valueType) {
 	newNode := TreeNode{nil, nil, value}
 	switch dir {
 
-	case left:
-		thisNode.left = &newNode
+	case Left:
+		thisNode.Left = &newNode
 	default:
-		thisNode.right = &newNode
+		thisNode.Right = &newNode
 	}
 }
 
@@ -78,15 +79,15 @@ func CreateTree(instructions string) *TreeNode {
 			}
 			switch word {
 			case "tl":
-				thisNode = thisNode.left
+				thisNode = thisNode.Left
 			case "tr":
-				thisNode = thisNode.right
+				thisNode = thisNode.Right
 			case "al":
 				newNode = TreeNode{nil, nil, value}
-				thisNode.left = &newNode
+				thisNode.Left = &newNode
 			case "ar":
 				newNode = TreeNode{nil, nil, value}
-				thisNode.left = &newNode
+				thisNode.Left = &newNode
 			}
 		}
 	}
@@ -94,10 +95,10 @@ func CreateTree(instructions string) *TreeNode {
 }
 
 func preorder(t *TreeNode, s string) {
-	if t.left == nil && t.right == nil {
-		fmt.Printf("%d ", int(t.value))
-		preorder(t.left, s)
-		preorder(t.right, s)
+	if t.Left == nil && t.Right == nil {
+		fmt.Printf("%d ", int(t.Value))
+		preorder(t.Left, s)
+		preorder(t.Right, s)
 	}
 }
 
