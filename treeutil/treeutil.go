@@ -3,12 +3,15 @@ package treeutil
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type valueType int
-type treeNode struct {
-	left  *treeNode
-	right *treeNode
+
+// TreeNode is a binary tree node
+type TreeNode struct {
+	left  *TreeNode
+	right *TreeNode
 	value valueType
 }
 
@@ -19,8 +22,8 @@ const (
 	right
 )
 
-func addNode(thisNode *treeNode, dir direction, value valueType) {
-	newNode := treeNode{nil, nil, value}
+func addNode(thisNode *TreeNode, dir direction, value valueType) {
+	newNode := TreeNode{nil, nil, value}
 	switch dir {
 
 	case left:
@@ -53,17 +56,20 @@ VALUE <traversal instructions> <add instruction>
 
 */
 
-func createTree(instructions [][]string) *treeNode {
+// CreateTree creates a binary tree from the instructions
+func CreateTree(instructions string) *TreeNode {
+	instructionlines := strings.Split(instructions, "\n")
 	// parse the instructions
-	var root *treeNode
-	var thisNode *treeNode
-	var newNode treeNode // an actual node, and not a pointer
-	for lineNum, line := range instructions {
-		for _, word := range line {
+	var root *TreeNode
+	var thisNode *TreeNode
+	var newNode TreeNode // an actual node, and not a pointer
+	for lineNum, line := range instructionlines {
+		linearr := strings.Split(line, " \t")
+		for _, word := range linearr {
 			temp, _ := strconv.Atoi(word) // ignore the err
 			value := valueType(temp)
 			if lineNum == 0 {
-				newNode := treeNode{nil, nil, value}
+				newNode := TreeNode{nil, nil, value}
 				root = &newNode
 				thisNode = root
 			}
@@ -76,10 +82,10 @@ func createTree(instructions [][]string) *treeNode {
 			case "tr":
 				thisNode = thisNode.right
 			case "al":
-				newNode = treeNode{nil, nil, value}
+				newNode = TreeNode{nil, nil, value}
 				thisNode.left = &newNode
 			case "ar":
-				newNode = treeNode{nil, nil, value}
+				newNode = TreeNode{nil, nil, value}
 				thisNode.left = &newNode
 			}
 		}
@@ -87,7 +93,7 @@ func createTree(instructions [][]string) *treeNode {
 	return root
 }
 
-func preorder(t *treeNode, s string) {
+func preorder(t *TreeNode, s string) {
 	if t.left == nil && t.right == nil {
 		fmt.Printf("%d ", int(t.value))
 		preorder(t.left, s)
@@ -96,14 +102,14 @@ func preorder(t *treeNode, s string) {
 }
 
 // TODO: return as string as opposed to just dumping it on the console
-func traversePreorder(t *treeNode) []valueType {
+func traversePreorder(t *TreeNode) []valueType {
 	return nil
 }
 
-func traverseInorder(t *treeNode) []valueType {
+func traverseInorder(t *TreeNode) []valueType {
 	return nil
 }
 
-func traversePostorder(t *treeNode) []valueType {
+func traversePostorder(t *TreeNode) []valueType {
 	return nil
 }
