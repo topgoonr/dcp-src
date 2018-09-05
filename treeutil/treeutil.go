@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"unsafe"
 )
 
 // ValueType is an int
@@ -25,7 +24,7 @@ const (
 	Right
 )
 
-func addNode(thisNode *TreeNode, dir direction, value ValueType) {
+func addNode(thisNode *TreeNode, dir direction, value ValueType) *TreeNode {
 	newNode := TreeNode{nil, nil, value}
 	switch dir {
 
@@ -34,6 +33,7 @@ func addNode(thisNode *TreeNode, dir direction, value ValueType) {
 	default:
 		thisNode.Right = &newNode
 	}
+	return &newNode
 }
 
 /*
@@ -59,7 +59,7 @@ func CreateTree(instructions string) *TreeNode {
 	// parse the instructions
 	var root *TreeNode
 	var thisNode *TreeNode
-	var newNode TreeNode // an actual node, and not a pointer
+	var newNode = make([]TreeNode, 0) // an actual node, and not a pointer
 	var value ValueType
 
 	for lineNum, line := range instructionlines {
@@ -77,9 +77,10 @@ func CreateTree(instructions string) *TreeNode {
 			// err != nil means it is not a value, so err need not be handled
 
 			if lineNum == 0 && i == 0 {
-				newNode = TreeNode{Left: nil, Right: nil, Value: value}
-				root = &newNode
-				thisNode = (*TreeNode)(unsafe.Pointer(root))
+				newNode = append(newNode, TreeNode{Left: nil, Right: nil, Value: value})
+				index := len(newNode) - 1
+				root = &newNode[index]
+				thisNode = root
 				fmt.Println("[ root created ] ")
 				continue //next word, please
 			}
@@ -102,32 +103,38 @@ func CreateTree(instructions string) *TreeNode {
 				fmt.Println(">al...")
 				// memory allocation causing issues here.
 				// TODO: fix it!
-				newNode = TreeNode{Left: nil, Right: nil, Value: value}
-				fmt.Println("value = ", newNode.Value)
+				newNode = append(newNode, TreeNode{Left: nil, Right: nil, Value: value})
+				index := len(newNode) - 1
+				fmt.Println("value = ", newNode[index].Value)
 				fmt.Println("this = ", thisNode)
-				thisNode.Left = &newNode
+				thisNode.Left = &newNode[index]
 				fmt.Println("this = ", thisNode, "...al")
 			case "ar":
 				fmt.Println(">ar")
 				// memory allocation causing issues here. As the root node gets changed, somehow
 				// TODO: Fix it!
-				newNode = TreeNode{Left: nil, Right: nil, Value: value}
-				fmt.Println("value = ", newNode.Value)
-				thisNode.Right = &newNode
+				newNode = append(newNode, TreeNode{Left: nil, Right: nil, Value: value})
+				index := len(newNode) - 1
+				fmt.Println("value = ", newNode[index].Value)
+				thisNode.Right = &newNode[index]
 				fmt.Println(thisNode, "..ar")
 			default:
 				continue
 			}
 		}
 	}
+	fmt.Println("root = ", root)
 	return root
 }
 
-func preorder(t *TreeNode, s string) {
-	if t.Left == nil && t.Right == nil {
-		fmt.Printf("%d ", int(t.Value))
-		preorder(t.Left, s)
-		preorder(t.Right, s)
+//Preorder binary tree traversal. Expects a pointer to a TreeNode
+func Preorder(t *TreeNode) {
+	fmt.Println(">", t.Value)
+	if t.Left != nil {
+		Preorder(t.Left)
+	}
+	if t.Right != nil {
+		Preorder(t.Right)
 	}
 }
 
