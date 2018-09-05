@@ -79,10 +79,10 @@ func decode(input string) []string {
 	// two possibilities: 11, and 1+1
 	// or, in some cases only one: 2+7, since 27 does not exist as a valid key
 	if len(input) == 2 {
-		tempjoin := globalmap[string(b[0])] + globalmap[string(b[1])] // aa
+		tempjoin := globalmap[string(b[0])] + globalmap[string(b[1])] // if, 'aa'
 		outputlist = append(outputlist, tempjoin)
 		fmt.Println("2-->", outputlist)
-		val, ok := globalmap[string(b[:2])] // k
+		val, ok := globalmap[string(b[:2])] // if, 'k'
 		if ok {
 			outputlist = append(outputlist, val)
 			fmt.Println("2-->", outputlist)
@@ -92,6 +92,7 @@ func decode(input string) []string {
 		return outputlist
 	}
 
+	// inductive part
 	// var join1, join2 bytes.Buffer
 	var join1, join2 string
 	var prefix string
@@ -104,7 +105,6 @@ func decode(input string) []string {
 		suffixlist = append(suffixlist, decode(string(b[1:]))...)
 		fmt.Println("part 1: ... and back again; suffixlist = ", suffixlist)
 		// combine prefix with the retured suffixlist
-		// fmt.Println("suffixlist = ", suffixlist)
 		for _, s := range suffixlist {
 			// fmt.Println(s)
 			join1 = prefix
