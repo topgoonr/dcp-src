@@ -31,13 +31,10 @@ const NOTUNIVAL Tr.ValueType = -1
 
 // CheckUnivalTree returns the value of the tree
 func CheckUnivalTree(t *Tr.TreeNode, someval Tr.ValueType, counter *int) Tr.ValueType {
-
 	if t.Left == nil && t.Right == nil {
-		if t.Value == someval {
-			*counter++
-			return t.Value
-		}
-		return NOTUNIVAL
+		fmt.Println("some poor leaf node", t.Value)
+		*counter++
+		return t.Value
 	}
 
 	// induction part
@@ -55,19 +52,24 @@ func CheckUnivalTree(t *Tr.TreeNode, someval Tr.ValueType, counter *int) Tr.Valu
 	if rightVal != t.Value {
 		return NOTUNIVAL
 	}
-
+	fmt.Println("does it come here?", t)
 	*counter++
 	return t.Value // all subtrees have the same value as this one
 }
 
 func main() {
-	instructionsString := "0 root,1 al,0 ar,1 tr al,0 tr ar,1 tr tl al,1 tr tl ar"
+	instructionsString := "0 root,1 al,2 ar,7 tr al,3 tr ar,7 tr tl al,7 tr tl ar"
 	mytree := Tr.CreateTree(instructionsString)
 	if mytree == nil {
 		fmt.Println("why?")
 	}
+
+	fmt.Println("mytree = ", mytree)
+	Tr.Preorder(mytree)
 	mycounter := 0
+
+	// has to be done for every interior node
 	CheckUnivalTree(mytree, mytree.Value, &mycounter)
 
-	fmt.Println(mycounter)
+	fmt.Println("unival trees = ", mycounter)
 }
