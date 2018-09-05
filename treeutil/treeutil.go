@@ -4,15 +4,17 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"unsafe"
 )
 
-type valueType int
+// ValueType is an int
+type ValueType int
 
 // TreeNode is a binary tree node
 type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
-	Value valueType
+	Value ValueType
 }
 
 type direction int
@@ -23,7 +25,7 @@ const (
 	Right
 )
 
-func addNode(thisNode *TreeNode, dir direction, value valueType) {
+func addNode(thisNode *TreeNode, dir direction, value ValueType) {
 	newNode := TreeNode{nil, nil, value}
 	switch dir {
 
@@ -47,47 +49,74 @@ For example, the following tree:
 
 VALUE <traversal instructions> <add instruction>
 
-0 root
-1 la
-0 ra
-1 tr al
-0 tr ar
-1 tr tl al
-1 tr tl ar
-
+0 root, 1 al, 0 ar, 1 tr al, 0 tr ar, 1 tr tl al, 1 tr tl ar
 */
 
 // CreateTree creates a binary tree from the instructions
 func CreateTree(instructions string) *TreeNode {
-	instructionlines := strings.Split(instructions, "\n")
+	instructionlines := strings.Split(instructions, ",")
+	fmt.Println(len(instructionlines), instructionlines)
 	// parse the instructions
 	var root *TreeNode
 	var thisNode *TreeNode
 	var newNode TreeNode // an actual node, and not a pointer
+	var value ValueType
+
 	for lineNum, line := range instructionlines {
-		linearr := strings.Split(line, " \t")
-		for _, word := range linearr {
-			temp, _ := strconv.Atoi(word) // ignore the err
-			value := valueType(temp)
-			if lineNum == 0 {
-				newNode := TreeNode{nil, nil, value}
-				root = &newNode
-				thisNode = root
+		wordarr := strings.Split(line, " ")
+		thisNode = root
+		fmt.Println("----------NEW LINE words = ", wordarr, "lineNum = ", lineNum, "len =", len(wordarr), "root ")
+		for i, word := range wordarr {
+			// fmt.Println(i, word)
+			fmt.Println("begin... this = ", thisNode)
+			temp, err := strconv.Atoi(word)
+			if err == nil { // no err then this is a value
+				value = ValueType(temp)
+				fmt.Println(i, "v>>", value)
 			}
-			if lineNum == 0 && word != "root" {
-				return nil
+			// err != nil means it is not a value, so err need not be handled
+
+			if lineNum == 0 && i == 0 {
+				newNode = TreeNode{Left: nil, Right: nil, Value: value}
+				root = &newNode
+				thisNode = (*TreeNode)(unsafe.Pointer(root))
+				fmt.Println("[ root created ] ")
+				continue //next word, please
+			}
+
+			if thisNode == nil {
+				fmt.Println("yeah, why?")
 			}
 			switch word {
 			case "tl":
+				fmt.Println(">tl...")
+				fmt.Println("this = ", thisNode)
 				thisNode = thisNode.Left
+				fmt.Println("this = ", thisNode)
 			case "tr":
+				fmt.Println(">tr...")
+				fmt.Println("this = ", thisNode)
 				thisNode = thisNode.Right
+				fmt.Println("this = ", thisNode)
 			case "al":
-				newNode = TreeNode{nil, nil, value}
+				fmt.Println(">al...")
+				// memory allocation causing issues here.
+				// TODO: fix it!
+				newNode = TreeNode{Left: nil, Right: nil, Value: value}
+				fmt.Println("value = ", newNode.Value)
+				fmt.Println("this = ", thisNode)
 				thisNode.Left = &newNode
+				fmt.Println("this = ", thisNode, "...al")
 			case "ar":
-				newNode = TreeNode{nil, nil, value}
-				thisNode.Left = &newNode
+				fmt.Println(">ar")
+				// memory allocation causing issues here. As the root node gets changed, somehow
+				// TODO: Fix it!
+				newNode = TreeNode{Left: nil, Right: nil, Value: value}
+				fmt.Println("value = ", newNode.Value)
+				thisNode.Right = &newNode
+				fmt.Println(thisNode, "..ar")
+			default:
+				continue
 			}
 		}
 	}
@@ -103,14 +132,14 @@ func preorder(t *TreeNode, s string) {
 }
 
 // TODO: return as string as opposed to just dumping it on the console
-func traversePreorder(t *TreeNode) []valueType {
+func traversePreorder(t *TreeNode) []ValueType {
 	return nil
 }
 
-func traverseInorder(t *TreeNode) []valueType {
+func traverseInorder(t *TreeNode) []ValueType {
 	return nil
 }
 
-func traversePostorder(t *TreeNode) []valueType {
+func traversePostorder(t *TreeNode) []ValueType {
 	return nil
 }
