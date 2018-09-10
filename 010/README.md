@@ -27,19 +27,19 @@ There are two different data structures of note:
     duration         MilliSecType
     }   ```
 
-The entire logic can be divided among 'scheduler' and 'ticktock'. 
+The entire logic can be divided among 'scheduler' and 'ticktock'.
 'ticktock' simulates an actual system time, and will trigger the jobs that have been registered.
-'scheduler' allows for registering the job at a pre-specified system time (in millisecond). 
+'scheduler' allows for registering the job at a pre-specified system time (in millisecond).
 
-And finally, the main portion consists of declaring two functions that will be called at regular times during the time interval of a second. 
+And finally, the main portion consists of declaring two functions that will be called at regular times during the time interval of a second.
 
 
 Here the duration will be assigned a value of 1 for a more simplified understanding of the code.
 
 ## What would a solution with a job 'duration' > 1ms entail
 
-If the duration is greater than 1 millisecond, than this will mean that a concept similar to a Ready Queue will have to be implemented. 
-The ticktock will be incremented in larger steps. These steaps will be equal to the duration. 
+If the duration is greater than 1 millisecond, than this will mean that a concept similar to a Ready Queue will have to be implemented.
+The ticktock will be incremented in larger steps. These steaps will be equal to the duration.
 
-There will be a check to see whether any one of the functions registered is already late to be scheduled, due to another function with a longer duration taking slightly longer. 
+There will be a check to see whether any one of the functions registered is already late to be scheduled, due to another function with a longer duration taking slightly longer.
 
