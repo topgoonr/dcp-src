@@ -13,6 +13,6 @@ Follow-up: Can you do this in O(N) time and constant space?
 
 Try doing cascading iterations like 'Shell Sort'.  Not the right solution, though. Does not work with variable gaps between non-adjacent numbers.
 
-## Solution: Attempt 2
+## Solution: Attempt 2 (working)
 
 A Dynamic Programming variant that will account for the variable and irregular adjacent numbers. Needs to be recursive, though.Depends on the fact that the next step is a summation leaving one number (or two numbers) in between. As indicated by sumA and SumB.
