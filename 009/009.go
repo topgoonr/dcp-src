@@ -15,32 +15,40 @@ package main
 
 import "fmt"
 
+//  a recursive method to do dynamic programming
+func largestNonAdjacentSum(input []int) int {
+	// standard base cases
+	if len(input) <= 0 {
+		return 0
+	}
+
+	if len(input) == 2 {
+		if input[0] > input[1] {
+			return input[0]
+		}
+		return input[1]
+	}
+
+	if len(input) == 1 {
+		return input[0]
+	}
+
+	// inductive cases
+	sumA := largestNonAdjacentSum(input[2:])
+	sumB := largestNonAdjacentSum(input[3:])
+
+	if sumA > sumB {
+		return input[0] + sumA
+	}
+	return sumB + input[0]
+
+}
+
 func main() {
 
-	type maxDetails struct {
-		max   int
-		start int
-		iter  int
-	}
+	// input := []int{5, 1, 1, 5} //
+	input := []int{2, 4, 6, 2, 5}
 
-	w := maxDetails{0, 0, 0}
-	input := []int{5, 1, 1, 5} // 2, 4, 6, 2, 5}
-	size := len(input)
-	w.max = 0
-
-	for iter := 2; iter < size; iter++ {
-		for start := 0; start < size; start++ {
-			sum := 0
-			for j := start; j < size; j += iter {
-				sum += input[j]
-			}
-			if w.max < sum {
-				w.max = sum
-				w.start = start
-				w.iter = iter
-			}
-		}
-	}
-	fmt.Println("sum = ", w.max)
-	fmt.Println("start = ", w.start, "iter = ", w.iter)
+	max := largestNonAdjacentSum(input)
+	fmt.Println("sum = ", max)
 }

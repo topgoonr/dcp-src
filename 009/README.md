@@ -15,4 +15,4 @@ Try doing cascading iterations like 'Shell Sort'.  Not the right solution, thoug
 
 ## Solution: Attempt 2
 
-A Dynamic Programming variant that will account for the variable and irregular adjacent numbers. Needs to be recursive, though.
+A Dynamic Programming variant that will account for the variable and irregular adjacent numbers. Needs to be recursive, though.Depends on the fact that the next step is a summation leaving one number (or two numbers) in between. As indicated by sumA and SumB.
