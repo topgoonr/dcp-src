@@ -43,3 +43,9 @@ The ticktock will be incremented in larger steps. These steaps will be equal to 
 
 There will be a check to see whether any one of the functions registered is already late to be scheduled, due to another function with a longer duration taking slightly longer.
 
+## Language Highlights
+
+1. A function that accepts a map
+2. A type that describes a function
+3. Usage of functions as valid parameter types
+4. Closures
