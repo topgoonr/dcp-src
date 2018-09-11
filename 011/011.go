@@ -9,6 +9,27 @@ Hint: Try preprocessing the dictionary into a more efficient data structure to s
 
 package main
 
-func main() {
+import (
+	"fmt"
+	"io/ioutil"
+)
 
+func readDictionary([]string) int {
+	// create the data structure here
+	// returns count of strings read into the dictionary
+	count := 0
+	return count
+}
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+func main() {
+	var trie [][]byte
+	// [N, A] where N stands for the starting level and A stands for the branch
+	dat, err := ioutil.ReadFile("/tmp/dat")
+	check(err)
+	fmt.Print(string(dat))
 }
