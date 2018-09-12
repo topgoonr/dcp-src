@@ -24,6 +24,7 @@ const (
 	Right
 )
 
+// not being used, and needs fixing to utilize the []TreeNode way of allocation
 func addNode(thisNode *TreeNode, dir direction, value ValueType) *TreeNode {
 	newNode := TreeNode{nil, nil, value}
 	switch dir {
@@ -102,7 +103,7 @@ func CreateTree(instructions string) *TreeNode {
 			case "al":
 				fmt.Println(">al...")
 				// memory allocation causing issues here.
-				// TODO: fix it!
+				// TODO: fixed
 				newNode = append(newNode, TreeNode{Left: nil, Right: nil, Value: value})
 				index := len(newNode) - 1
 				fmt.Println("value = ", newNode[index].Value)
@@ -112,7 +113,7 @@ func CreateTree(instructions string) *TreeNode {
 			case "ar":
 				fmt.Println(">ar")
 				// memory allocation causing issues here. As the root node gets changed, somehow
-				// TODO: Fix it!
+				// TODO: fixed!
 				newNode = append(newNode, TreeNode{Left: nil, Right: nil, Value: value})
 				index := len(newNode) - 1
 				fmt.Println("value = ", newNode[index].Value)
